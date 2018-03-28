@@ -1,6 +1,6 @@
-#include <murAPI.hpp> // Подключение библиотеки murAPI
+#include <murAPI.hpp> // РџРѕРґРєР»СЋС‡РµРЅРёРµ Р±РёР±Р»РёРѕС‚РµРєРё murAPI
 
-Object detectBlack(cv::Mat img) {                                       // Со 2 по 30 строку функция для определения чёрного квадрата                                               
+Object detectBlack(cv::Mat img) {                                       // РЎРѕ 2 РїРѕ 30 СЃС‚СЂРѕРєСѓ С„СѓРЅРєС†РёСЏ РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ С‡С‘СЂРЅРѕРіРѕ РєРІР°РґСЂР°С‚Р°                                               
 	cv::Scalar lower(0, 0, 0);
 	cv::Scalar upper(0, 0, 255);
 	cv::cvtColor(img, img, CV_BGR2HSV);
@@ -29,7 +29,7 @@ Object detectBlack(cv::Mat img) {                                       // Со 2 
 	return objectToRet;
 }
 
-void keepYD(double &yts, double &dth, bool &black) {   // С 32 по 47 строку функция для удержания курса и глубины
+void keepYD(double &yts, double &dth, bool &black) {   // РЎ 32 РїРѕ 47 СЃС‚СЂРѕРєСѓ С„СѓРЅРєС†РёСЏ РґР»СЏ СѓРґРµСЂР¶Р°РЅРёСЏ РєСѓСЂСЃР° Рё РіР»СѓР±РёРЅС‹
 	float power = 20.0;
 	double yaw = mur.getYaw(),
 		depth = mur.getInputAOne();
@@ -46,7 +46,7 @@ void keepYD(double &yts, double &dth, bool &black) {   // С 32 по 47 строку функ
 	}
 }
 
-void rotateTo(double &yts, bool &line, int &i, double &dth) {                              // С 49 по 64 строку функция для поворота по курсу линии
+void rotateTo(double &yts, bool &line, int &i, double &dth) {                              // РЎ 49 РїРѕ 71 СЃС‚СЂРѕРєСѓ С„СѓРЅРєС†РёСЏ РґР»СЏ РїРѕРІРѕСЂРѕС‚Р° РїРѕ РєСѓСЂСЃСѓ Р»РёРЅРёРё
 	if (!line) {
 		for (auto obj : mur.getDetectedObjectsList(0)) {
 			if (obj.type == Object::RECTANGLE) {
@@ -70,7 +70,7 @@ void rotateTo(double &yts, bool &line, int &i, double &dth) {                   
 	}
 }
 
-void findCirc(bool &line) {                                             // С 66 по 80 строку функция для поиска круга
+void findCirc(bool &line) {                                             // РЎ 73 РїРѕ 87 СЃС‚СЂРѕРєСѓ С„СѓРЅРєС†РёСЏ РґР»СЏ РїРѕРёСЃРєР° РєСЂСѓРіР°
 	if (line) {
 		for (auto obj : mur.getDetectedObjectsList(0)) {
 			if (obj.type == Object::CIRCLE) {
@@ -87,7 +87,7 @@ void findCirc(bool &line) {                                             // С 66 
 }
 
 
-void findBlack(bool &black) {                                       // С 83 по 96 строку функция для поиска чёрного квадрата
+void findBlack(bool &black) {                                       // РЎ 90 РїРѕ 103 СЃС‚СЂРѕРєСѓ С„СѓРЅРєС†РёСЏ РґР»СЏ РїРѕРёСЃРєР° С‡С‘СЂРЅРѕРіРѕ РєРІР°РґСЂР°С‚Р°
 	Object obj = detectBlack(mur.getCameraOneFrame());
 	if (obj.type == Object::RECTANGLE) {
 		black = true;
@@ -103,17 +103,17 @@ void findBlack(bool &black) {                                       // С 83 по 9
 }
 
 int main() {
-	double yts = 0.0,   // Начальный курс
-		dth = 60.0;  // Начальная глубина
+	double yts = 0.0,   // РќР°С‡Р°Р»СЊРЅС‹Р№ РєСѓСЂСЃ
+		dth = 60.0;  // РќР°С‡Р°Р»СЊРЅР°СЏ РіР»СѓР±РёРЅР°
 	bool line = false, black = false;
 	int i = 0;
-	mur.addDetectorToList(Object::RECTANGLE, 0); // Добавление линии в массив искомых объектов
+	mur.addDetectorToList(Object::RECTANGLE, 0); // Р”РѕР±Р°РІР»РµРЅРёРµ Р»РёРЅРёРё РІ РјР°СЃСЃРёРІ РёСЃРєРѕРјС‹С… РѕР±СЉРµРєС‚РѕРІ
 
 	while (1) {
-		keepYD(yts, dth, black);  // функция для удержания глубины и курса
-		rotateTo(yts, line, i, dth);      // функция для поворота по курсу линии
-		findBlack(black);          // функция для поиска круга      
-		findCirc(line);         // функция для поиска чёрного квадрата
+		keepYD(yts, dth, black);  // С„СѓРЅРєС†РёСЏ РґР»СЏ СѓРґРµСЂР¶Р°РЅРёСЏ РіР»СѓР±РёРЅС‹ Рё РєСѓСЂСЃР°
+		rotateTo(yts, line, i, dth);      // С„СѓРЅРєС†РёСЏ РґР»СЏ РїРѕРІРѕСЂРѕС‚Р° РїРѕ РєСѓСЂСЃСѓ Р»РёРЅРёРё
+		findBlack(black);          // С„СѓРЅРєС†РёСЏ РґР»СЏ РїРѕРёСЃРєР° С‡С‘СЂРЅРѕРіРѕ РєРІР°РґСЂР°С‚Р°      
+		findCirc(line);         // С„СѓРЅРєС†РёСЏ РґР»СЏ РїРѕРёСЃРєР° РєСЂСѓРіР°
 	}
 	return 0;
 }
